@@ -77,7 +77,7 @@ Commands for Lovense toys follows these rules:
 - All commands start with a command identifier word, then possibly
   either specifiers or levels, delimited by colons. e.g. "Vibrate:5;"
   would set vibration to 5.
-- Replies are in the context of the command (i.e. sending "Battery;"
+- Replies are in the context of the command (i.e. sending "`Battery;`"
   will just return a number, like "85;"), but can still be colon
   delimited lists.
 - Commands that do not return a context specific value will return
@@ -127,6 +127,8 @@ Denotes Nora toy, running v1.1 firmware, BT Addr of 00:82:05:9A:D3:BD
 #### Get Battery Level
 
 Returns the battery level of the toy as an integer percentage from 0-100.
+
+If the vibrator is currently active, this value will be prefixed with an "s" character.
 
 _Availability:_ All toys
 
