@@ -83,13 +83,12 @@ of `UNKNOWN;`.
 <!-- state -->
 
 - [Battery](#battery): `Battery`
-- [Status](#status): `Status`
 - [Motion](#motion): `StartMove`, `StopMove`
 
 <!-- controls -->
 
 - [Vibration](#vibration): `Vibrate`, `Vibrate1`, `Vibrate2`
-- [Rotation](#rotation): `Rotate`, `RotateChange`, `RotateClockwise`,
+- [Rotation](#rotation): `Rotate`,
   `RotateAntiClockwise`
 - [Inflation](#inflation): `Air`
 
@@ -169,22 +168,6 @@ Battery;
 85;
 ```
 
-### Status
-
-#### `Status:$INDEX;` (All)
-
-I have no idea what this does.
-
-For example, apparently this:
-
-```
-Status:1;
-```
-
-```
-2;
-```
-
 ### Motion
 
 #### `StartMove:1;` and `StopMove:1;` (Max, Nora)
@@ -238,10 +221,11 @@ using the `Vibrate1` and `Vibrate2` variants of the `Vibrate` command.
 
 ### Rotation
 
-#### `RotateClockwise:$SPEED;` and `RotateAntiClockwise:$SPEED;` (Nora)
+#### `Rotate:$CLOCKWISE:$SPEED;` (Nora)
 
 Sets the rotation speed to `$SPEED` of the Nora device, using an integer scale
-from 0 to 20, in the given rotation direction.
+from 0 to 20. If "$CLOCKWISE" is `True`, rotates clockwise, if it is `False`,
+rotates anticlockwise.
 
 For example, to set the Nora device to rotate at 15/20 (75%) speed in the
 clockwise direction:
@@ -261,11 +245,6 @@ Adjusts the rotation speed without changing the direction.
 #### `RotateChange;` (Nora)
 
 Toggles the rotation direction without changing its speed.
-
-#### `Rotate:$CLOCKWISE:$SPEED;` (Nora)
-
-`Rotate:True:$SPEED` is equivalent to `RotateClockwise:$SPEED`.
-`Rotate:False:$SPEED` is equivalent to `RotateAnticlockwise:$SPEED`.
 
 ### Inflation
 
