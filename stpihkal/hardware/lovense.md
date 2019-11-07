@@ -2,493 +2,512 @@
 
 ## Introduction
 
-Lovense has been manufacturing toys since 2011.
+[Lovense](https://www.lovense.com/) has been manufacturing sex toys since 2011.
+
+Many of their product models have undergone revisions over the years. For
+example, the Nora is currently on generation 6. If there are differences in
+capabilities between revisions, they may have been overlooked here. We also
+assume that devices are running with all available firmware updates installed.
 
 ## Bluetooth Details
 
-While all lovense toys use the same protocol, they can communicate
-over bluetooth differently, depending on when they were released.
+While all Lovense devices use the same message protocol, they can communicate
+over different Bluetooth differently depending on when they were released.
 
-### Bluetooth 2.0 Toys
+### Bluetooth 2.0 Support
 
-The first toys released by Lovense used both Bluetooth 2.0 SPP
-(emulating a serial port) and Bluetooth LE. This was most likely due
-to the sparse mobile support of BTLE when they were released.
+The first devices released by Lovense, Max and Nora, used both Bluetooth 2.0 SPP
+(emulating a serial port) and Bluetooth 4.0 Low Energy (BTLE). This was most
+likely due to the sparse mobile support of BTLE when they were released. Support
+for Bluetooth 2.0 was not included in future models.
 
-These toys include:
+### Bluetooth 4.0 Low Energy Support
 
-- Max
-- Nora
+Lovense device names always start with `LVS-`. What comes after that varies
+depending on when the device was released. Early devices used names including
+the single character model identifiers [described below](#device-information),
+such as `LVS-A011`, while newer devices use the full model name, such
+`LVS-Edge36`. The trailing digits indicate denote the firmware version the
+device is running.
 
-When paired with a system via Bluetooth 2.0, these toys identify as a
-serial port. These toys are also capable of using Bluetooth 4.0, as
-outlined in the next section.
+Lovense devices use Bluetooth 4.0 GATT characteristics to mimic the serial port
+style control of their Bluetooth 2.0 protocol. The Bluetooth GATT service and
+characteristic UUIDs can differ between models and firmware firmware versions.
 
-### Bluetooth LE Toys
+Service IDs observed so far match one of the following patterns:
 
-Starting with the Lush, all toys released by Lovense use only
-Bluetooth LE.
+- `0000fff0-0000-1000-8000-00805f9b34fb` for the first generation.
+- `6e400001-b5a3-f393-e0a9-e50e24dcca9e` for second generation.
+- <code><b>XY</b>300001-002<b>Z</b>-4bd4-bbd5-a6920e4c5653</code> for the rest,
+  where:
+  - `X` is `4` or `5`
+  - `Y` is any hex digit, `0` to `f`
+  - `Z` is `3` or `4`
 
-These toys have GATT characteristics to mimic the RX/TX setup of the
-serial port style control of the old toys. The GATT service and
-characteristic IDs differ between different toy firmware versions.
+While some Bluetooth APIs can search for wildcard services, others such as
+WebBluetooth require an exact service UUID to connect. For that case, it's
+recommended to just generate out all 64 variations of the last service UUID
+pattern, for a total of 66 service UUIDs, and specify them all in
+`optionalServices` portion of a WebBluetooth connection filter.
 
-It's difficult to keep a current list of exact Lovense device names
-and service/characteristic UUIDs, as they tend to change rapidly on
-firmware updates. The following rules can be used for finding and
-connecting to Lovense toys.
-
-Lovense toy names always start with "LVS-". What comes after that
-varies depending on when the toy was released. Early toys used names
-involving the single character identifier, like "LVS-A011", while
-newer toys use the full product name, like "LVS-Edge36". The last 2
-numbers denote the firmware version the toy is running.
-
-Lovense toys usually have one of 3 service ID formats:
-
-```
-0000fff0-0000-1000-8000-00805f9b34fb
-6e400001-b5a3-f393-e0a9-e50e24dcca9e
-5X300001-002Y-4bd4-bbd5-a6920e4c5653
-```
-
-The first two service IDs are static, and represent the service IDs
-used by first and second generation Lovense toys. The 3rd service ID
-can vary, with
-
-- X being any number 0x0-0xf
-- Y usually being 0x3 or 0x4
-
-While some bluetooth APIs can wildcard services, others like
-WebBluetooth require an exact service UUID to connect. For these
-instances, it's recommended to just generate out all 32 variations of
-the last service, for a total of 34 services, to use with the
-optionalServices portion of a WebBluetooth connection filter.
-
-To identify the type of toy after connecting, it is recommended to use
-the [DeviceType;](lovense.md#get-device-information) message, outlined
-below. This will return a device model identifier.
+Once connected to the service, it will expose two GATT characteristics. One
+characteristic will be declared as writable, and it is used for transmitting
+messages by setting its value. The other characteristic will be declared as
+non-writable, and it is used for receiving messages by registering a listener
+for changes to its value.
 
 ## Protocol
 
-Commands for Lovense toys follows these rules:
+### Structure
 
-- Commands and replies are strings, using semicolons to mark their end.
-- All commands start with a command identifier word, then possibly
-  either specifiers or levels, delimited by colons. e.g. "Vibrate:5;"
-  would set vibration to 5.
-- Replies are in the context of the command (i.e. sending "Battery;"
-  will just return a number, like "85;"), but can still be colon
-  delimited lists.
-- Commands that do not return a context specific value will return
-  "OK;" on success, "ERR;" on error.
+Commands and replies are strings, terminated by semicolons.
 
-### Command List
+All commands start with a command name, optionally followed by parameter values,
+delimited using colon characters.
 
-The following is the known command table for all toys. Anything send or
-received over the serial port is in quotes to denote communication, but
-should not be sent using quotes if you are implementing your own version
-of this protocol. Commands with ":x" mean that the x should be replaced
-with a number, the range of which is mentioned in the description.
+Most commands always receive a single message in reply, but some receive several
+or even a continuous stream.
 
-#### Get Device Information
+Commands that do not have more specific replies will typically reply with `OK;`
+on success and `ERR;` on failure.
 
-Returns toy model type, firmware version, and bluetooth MAC address,
-as a colon delimited list
+If the command name is unrecognized, the device will reply with some variation
+of `UNKNOWN;`.
 
-_Availability:_ All toys
+### Index
 
-_Command Format_
+<!-- properties -->
+
+- [Device Information](#device-information): `DeviceType`, `GetBatch`
+
+<!-- state -->
+
+- [Battery](#battery): `Battery`
+- [Status](#status): `Status`
+- [Motion](#motion): `StartMove`, `StopMove`
+
+<!-- controls -->
+
+- [Vibration](#vibration): `Vibrate`, `Vibrate1`, `Vibrate2`
+- [Rotation](#rotation): `Rotate`, `RotateChange`, `RotateClockwise`,
+  `RotateAntiClockwise`
+- [Inflation](#inflation): `Air`
+
+<!-- programming -->
+
+- [Patterns](#patterns): `GetPatten`, `Preset`
+- [Levels](#levels): `GetLevel`, `SetLevel`
+
+<!-- settings -->
+
+- [Light Settings](#light-settings): `GetLight`, `GetALight`, `Light`, `ALight`
+- [Connectivity Settings](#connectivity-settings): `GetAS`, `AutoSwith`
+
+<!-- niche -->
+
+- [Power Off](#power-off): `PowerOff`
+
+### Device Information
+
+#### `DeviceType;` (All)
+
+Returns device's model, firmware version, and Bluetooth MAC address, as a
+colon-delimited list. The model is identified using a single character, as
+follows:
+
+- `A` or `C`: Nora
+- `B`: Max
+- `L`: Ambi
+- `O`: Osci
+- `P`: Edge
+- `S`: Lush
+- `W`: Domi
+- `Z`: Domi
+
+For example, given a Nora device, running v1.1 firmware, with a Bluetooth
+address of `00:82:05:9A:D3:BD`:
+
 ```
 DeviceType;
 ```
 
-_Return Example_
 ```
 C:11:0082059AD3BD;
 ```
 
-Denotes Nora toy, running v1.1 firmware, BT Addr of 00:82:05:9A:D3:BD
+#### `GetBatch;` (All)
 
-**Model Types:**
+Returns the production batch date for this device in `YYMMDD` format.
 
-| Model | Type Letter |
-| ----- | ----------- |
-| Nora | A or C |
-| Max | B |
-| Ambi | L |
-| Lush | S |
-| Hush | Z |
-| Domi | W |
-| Edge | P |
-| Osci | O |
+For example, given a device with a production batch date of January 24, 2019:
 
+```
+GetBatch;
+```
 
-#### Get Battery Level
+```
+190124;
+```
 
-Returns the battery level of the toy as an integer percentage from 0-100.
+### Battery
 
-_Availability:_ All toys
+#### `Battery;` (All)
 
-_Command Format_
+Returns the battery level of the device as an integer percentage from 0-100.
+
+This value may sometimes be prefixed with an `s` character. The reason for this
+is uncertain, but it might indicate that the toy is active and the battery is
+under load.
+
+For example, given an idle device with 85% battery remaining:
+
 ```
 Battery;
 ```
 
-_Return Example_
 ```
 85;
 ```
 
-Denotes 85% battery remaining.
+### Status
 
-#### Turn Off Power
+#### `Status:$INDEX;` (All)
 
-Turns off power to the toy.
+I have no idea what this does.
 
-_Availability:_ All toys
+For example, apparently this:
 
-_Command Format_
-```
-PowerOff;
-```
-
-_Return Example_
-```
-OK;
-```
-
-#### Device Status
-
-Retreive the status of the toy. 
-
-_Availability:_ All toys
-
-_Command Format_
 ```
 Status:1;
 ```
 
-_Return Example_
 ```
 2;
 ```
 
-_Status Codes:_
+### Motion
 
-- 2: Normal
+#### `StartMove:1;` and `StopMove:1;` (Max, Nora)
 
-#### Set Vibration Speed
+Enables and disables the accelerometer data stream. The device will send
+accelerometer data constantly <!-- TODO: approximately how frequently? --> until
+stop command is sent. Accelerometer data messages will be prefixed with the `G`
+character <!-- TODO: to distinguish it from other message replies sent
+concurrently? -->, followed by 3 16-bit signed integers in little-endian hexadecimal,
+indicating the 3D force vector measured by the device.
 
-Changes the vibration speed for the toy. Takes integer values from 0-20.
+For example:
 
-_Availability:_ All toys
-
-_Command Format_
-```
-Vibrate:10;
-```
-
-Sets vibration speed to 10 (50%).
-
-_Return Example_
-```
-OK;
-```
-
-#### Configure Toy Settings
-
-There are settings configurable through the Lovense Remote 
-application which have read and write commands. 
-
-##### AutoSwith
-
-Configures options labelled as follows in Lovense Remote:
-
-- Turn off the toy when there is an accidental bluetooth disconnection
-- Toy will go to last level when it reconnects 
-
-Note both options are marked Beta. "Turn off" appears to mean disable vibration.
-
-The read command returns 0 or 1; the write command accepts "Off" and "On".
-
-_Availability:_ All toys? Confirmed: Domi, Hush, Lush 2
-
-_Command Format_
-```
-GetAS;
-```
-
-Read "AutoSwith" options.
-
-_Return Example_
-```
-AutoSwith:0:1;
-```
-
-Indicates "turn off on disconnect" disabled; 
-"last level on reconnect" enabled.
-
-_Command Format_
-```
-AutoSwith:On:Off;
-```
-
-Set AutoSwith features to On and Off, respectively.
-
-_Return Example_
-```
-OK;
-```
-
-##### Light
-
-Labelled "Enable/Disable LED" in Lovense Remote. Not shown
-in Lovense Remote for Domi.
-
-Controls power/connection LED.
-
-The read command returns 0 or 1; the write command accepts "off" and "on".
-
-_Availability:_ All toys? Confirmed: Domi, Hush, Lush 2
-
-_Command Format_
-```
-GetLight;
-```
-
-Read Light setting.
-
-_Return Example_
-```
-Light:1;
-```
-
-LED enabled
-
-_Command Format_
-```
-Light:off;
-```
-
-Disable power/connection LED
-
-_Return Example_
-```
-OK;
-```
-
-##### ALight
-
-Labelled "Enable/Disable Lights" in Lovense Remote.
-
-_Availability:_ Domi
-
-Controls ring of white LEDs on Domi.
-
-The read command returns 0 or 1; the write command accepts "Off" and "On".
-
-_Command Format_
-```
-GetAlight;
-```
-
-Read ALight setting.
-
-_Return Example_
-```
-Alight:1;
-```
-
-Lights enabled
-
-*Important:* note different capitalization between read and write commands
-
-_Command Format_
-```
-ALight:Off;
-```
-
-Disable lights or power LED
-
-_Return Example_
-```
-OK;
-```
-
-#### Preset Levels
-
-The Domi allows customization of the low, medium, and high levels 
-selectable using the hardware buttons. The raw levels are the 
-same integer values used for the Vibrate command.
-
-_Availability:_ Domi
-
-_Command Format_
-```
-GetLevel;
-```
-
-Fetch configured levels.
-
-_Return Example_
-```
-1,9,20;
-```
-
-Vibration levels. Indicates 1 for low, 9 for medium, 20 for high. 
-This is the factory default.
-
-_Command Format_
-```
-SetLevel:3:16;
-```
-
-Set High to level 16. 1, 2, and 3 as the first argument refer to 
-low, medium, and high, respectively.
-
-_Return Example_
-```
-OK;
-```
-
-
-#### Start Accelerometer Data Stream
-
-Starts a stream of accelerometer data. Will send constantly until stop
-command is sent. Incoming accelerometer data starts with the letter G,
-followed by 3 16-bit little-endian numbers.
-
-_Availability:_ Max, Nora
-
-_Command Format_
 ```
 StartMove:1;
 ```
 
-_Return Example_
 ```
 GEF008312ED00;
+GE021316CA2CB;
 ```
 
-Denotes [0x00EF, 0x1283, 0x00ED] accelerometer readings.
-
-#### Stop Accelerometer Data Stream
-
-Stops stream of accelerometer data.
-
-_Availability:_ Max, Nora
-
-_Command Format_
 ```
 StopMove:1;
 ```
 
-_Return Example_
 ```
 OK;
 ```
 
-#### Change Rotation Direction
+### Vibration
 
-Changes the direction of rotation for the toy.
+#### `Vibrate:$SPEED;` (All)
 
-_Availability:_ Nora
+Sets the vibration speed to `$SPEED`, using an integer scale from 0 to 20.
 
-_Command Format_
+For example, to set the vibration speed to 10/20 (50%):
+
 ```
-RotateChange;
-```
-
-_Return Example_
-```
-OK;
+Vibrate:10;
 ```
 
-#### Set rotation speed
-
-Changes the rotation speed of the Nora toy. Takes integer values from 0-20.
-
-_Availability_: Nora
-
-_Command Format_
-```
-Rotate:10;
-```
-
-Sets rotation speed to 10 (50%).
-
-_Return Example_
 ```
 OK;
 ```
 
-#### Set Absolute Air Level
+#### `Vibrate1:$SPEED;`, and `Vibrate2:$SPEED;` (Edge)
 
-Changes the inflation level of the Max toy. Takes integer values from 0-5.
+Edge devices have two separate vibrators which may be controlled independently
+using the `Vibrate1` and `Vibrate2` variants of the `Vibrate` command.
 
-_Availability:_ Max
+### Rotation
 
-_Command Format_
+#### `RotateClockwise:$SPEED;` and `RotateAntiClockwise:$SPEED;` (Nora)
+
+Sets the rotation speed to `$SPEED` of the Nora device, using an integer scale
+from 0 to 20, in the given rotation direction.
+
+For example, to set the Nora device to rotate at 15/20 (75%) speed in the
+clockwise direction:
+
+```
+RotateClockwise:10;
+```
+
+```
+OK;
+```
+
+#### `Rotate:$SPEED;` (Nora)
+
+Adjusts the rotation speed without changing the direction.
+
+#### `RotateChange;` (Nora)
+
+Toggles the rotation direction without changing its speed.
+
+#### `Rotate:$CLOCKWISE:$SPEED;` (Nora)
+
+`Rotate:True:$SPEED` is equivalent to `RotateClockwise:$SPEED`.
+`Rotate:False:$SPEED` is equivalent to `RotateAnticlockwise:$SPEED`.
+
+### Inflation
+
+#### `Air:Level:$LEVEL;` (Max)
+
+Set the inflation level of the device, using an integer scale from 0 to 5.
+
+For example, to set the device to 3/5 inflation (60%):
+
 ```
 Air:Level:3;
 ```
 
-Sets air level to 3 (60%).
-
-_Return Example_
 ```
 OK;
 ```
 
-#### Set Relative Inflation Level
+#### `Air:In:$LEVELS;` (Max)
 
-Inflates relative to current level, i.e. if currently inflation level
-is 3, and "Air:In:1;" is sent, will inflate to 4.
+Increases the inflation level of the Max device by `$LEVELS`.
 
-_Availability:_ Max
+#### `Air:Out:$LEVELS;` (Max)
 
-_Command Format_
+Decreases the inflation level of the Max device by `$LEVELS`.
+
+### Patterns
+
+#### `GetPatten;` (Lush, Hush, Ambi, Domi, Edge, Osci)
+
+List the indexes of the patterns that are currently programmed into the device.
+The maximum number of patterns in 10, so each index will always be a single
+digit.
+
+For example, given a device with 5 patterns programmed (with indicies 0 through
+4):
+
 ```
-Air:In:1;
+GetPatten;
 ```
 
-Sets air level to 1 level more inflated than it was.
+```
+P:01234;
+```
 
-_Return Example_
+#### `GetPatten:$INDEX;` (Lush, Hush, Ambi, Domi, Edge, Osci)
+
+Returns a pattern that is currently programmed into the device.
+
+Each pattern is represented as a series of digits from 0 to 9, each indicating
+the vibration level for one half-second of the pattern. (This is different than
+the 0 to 20 scale used by the Vibrate command.)
+
+The response is split into multiple messages, each containing up to 12 digits (6
+seconds). Each response has a prefix indicating the pattern index, the number of
+parts in the response, and the index of the response.
+
+For Domi devices, the pattern length must be between 5 and 50 seconds, so the
+response will use a maximum of 9 messages, and the part count and indicies will
+always be a single digit.
+
+For example, given a Domi device:
+
+```
+GetPatten:4;
+```
+
+```
+P4:1/5:000042003720;
+P4:2/5:000002436658;
+P4:3/5:997339993001;
+P4:4/5:291111115111;
+P4:5/5:1110000000;
+```
+
+For Lush devices, the part count and indicies are padded to always use two
+digits.
+
+For example, given a Lush device:
+
+```
+GetPatten:4;
+```
+
+```
+P4:01/01:346797643;
+```
+
+#### `Preset:$INDEX;` (Lush, Hush, Ambi, Domi, Edge, Osci)
+
+Starts running a programmed pattern on a loop. Takes an positive integer pattern
+index to start running it, or 0 to stop running the pattern.
+
+While Domi is able to take any pattern index, from 0 to 10, Lush 2 only seems to
+be able to take indices from 0 to 4. Other toys have not been tested.
+
+```
+Preset:8;
+```
+
 ```
 OK;
 ```
 
-#### Set Relative Deflation Level
+### Levels
 
-Deflates relative to current level, i.e. if currently inflation level
-is 3, and "Air:Out:1;" is sent, will deflate to 2.
+#### `GetLevel;` (Domi)
 
-_Availability:_ Max
+Gets the low, medium, and high speed levels configured for the Domi device. The
+values are comma-delimited and use an integer scale from 0 to 20.
 
-_Command Format_
+These levels are the first three options when operating the Domi device
+manually. (The later options are programmed [patterns](#patterns).)
+
+For example, to retrieve the levels from a factory-default Domi device:
+
 ```
-Air:Out:1;
+GetLevel;
 ```
 
-Sets air level to 1 level deflated than it was.
+```
+1,9,20;
+```
 
-_Return Example_
+#### `SetLevel:$INDEX:$LEVEL;` (Domi)
+
+Sets the low (index `1`), medium (index `2`), or high (index `3`) speed level
+configured for the device to the specified `$LEVEL`, using an integer scale from
+0 to 20.
+
+### Light Settings
+
+#### `GetLight;` (All)
+
+Gets whether the LED light in the device's power button is enabled (`1`) or
+disabled (`0`).
+
+For example, given a device where the LED is enabled:
+
+```
+GetLight;
+```
+
+```
+Light:1;
+```
+
+#### `SetLight:$ENABLED;` (All)
+
+Gets whether the LED light in the device's power button is enabled (`on`) or
+disabled (`off`)
+
+For example, to disable the LED:
+
+```
+Light:off;
+```
+
 ```
 OK;
 ```
 
-## Related Projects and Links
+#### `GetAlight` (Domi)
 
-The applications and repositories below contain implementations of the
-Lovense communications protocol, or have relevant information about
-the hardware/firmware.
+Gets whether the ring of LED lights around the head of the Domi device's wand is
+enabled (`1`) or disabled (`0`).
 
-* Buttplug C# (All toys): [https://github.com/metafetish/buttplug-csharp](https://github.com/metafetish/buttplug-csharp)
-* Buttplug JS (All toys): [https://github.com/metafetish/buttplug-js](https://github.com/metafetish/buttplug-js)
-* lovesense-rs (Rust, Max/Nora only): [https://github.com/metafetish/lovesense-rs](https://github.com/metafetish/lovesense-rs)
-* lovesense-py (Python, Max/Nora only): [https://github.com/metafetish/lovesense-py](https://github.com/metafetish/lovesense-py)
-* Max/MSP patch (Max/MSP, Max/Nora only): [https://github.com/metafetish/lovesense-max](https://github.com/metafetish/lovesense-max)
-* Node.js Library (Max/Nora only): [https://github.com/metafetish/lovesense-js](https://github.com/metafetish/lovesense-js)
-* WebBluetooth JS Library/Demo (Hush only): [https://github.com/metafetish/lovesense-hush-js-demo](https://github.com/metafetish/lovesense-hush-js-demo)
+For example, given a device where the ring of LEDs is enabled:
+
+```
+GetAlight;
+```
+
+```
+Alight:1;
+```
+
+#### `ALight:$ENABLED;` (All)
+
+Gets whether the LED light in the device's power button is enabled (`On`) or
+disabled (`Off`)
+
+For example, to disable the ring of LEDs:
+
+```
+ALight:Off;
+```
+
+```
+OK;
+```
+
+### Connectivity Settings
+
+#### `AutoSwith:$STOP_ON_DISCONNECT:$RESUME_ON_RECONNECT;` (All)
+
+Enables or disables these device behaviours around Bluetooth disconnections:
+
+1. Stop all device activity when disconnected.
+2. Resume stopped activity when reconnected.
+
+Each option must be specified to be `On` or `Off`.
+
+For example, to configure the device to stop all activity on disconnect, and to
+not automatically resume activity once reconnected:
+
+```
+AutoSwith:On:Off;
+```
+
+```
+OK;
+```
+
+#### `GetAS;` (All)
+
+Gets the current value of the two options described above. The response is
+prefixed with `AutoSwith:`, colon-delimited and uses `1` to indicate enabled and
+`0` to indicate disabled. (Note that this is different from the `On` and `Off`
+used when setting the options.)
+
+For example, given a device configured to stop all activity on disconnect, and
+to not automatically resume activity once reconnected:
+
+```
+GetAS;
+```
+
+```
+AutoSwith:1:0;
+```
+
+### Power Off
+
+#### `PowerOff;` (All)
+
+Entirely powers off the device. It won't be possible to reconnect until the
+device is manually powered back on using its physical controls.
+
+```
+PowerOff;
+```
+
+```
+OK;
+```
