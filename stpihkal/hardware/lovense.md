@@ -91,6 +91,18 @@ should not be sent using quotes if you are implementing your own version
 of this protocol. Commands with ":x" mean that the x should be replaced
 with a number, the range of which is mentioned in the description.
 
+#### ???
+
+What is `EM;`? Maybe just internal?
+
+What are `Vibrate1:` and `Vibrate2:`?
+
+It looks like that's specifically for the "Edge" toy, which vibrates in two different places.
+
+AirAuto
+
+AirLevel
+
 #### Get Device Information
 
 Returns toy model type, firmware version, and bluetooth MAC address,
@@ -181,6 +193,8 @@ _Status Codes:_
 #### Set Vibration Speed
 
 Changes the vibration speed for the toy. Takes integer values from 0-20.
+
+> > > There's also `Vibrate1` and `Vibrate2`. What do they do? Anything?
 
 _Availability:_ All toys
 
