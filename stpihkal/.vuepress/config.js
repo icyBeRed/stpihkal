@@ -63,10 +63,12 @@ module.exports = {
     "@vuepress/plugin-back-to-top"
   ],
   evergreen: true,
+  base: "/stpihkal/",
   title: "STPIHKAL: Sex Toy Protocols I Have Known And Loved",
   description: "Documentation of sex toy and intimate hardware control protocols, firmware details, file formats, and other proprietary specifications.",
   head: [
     ['link', { rel: 'icon', href: '/buttplug.svg' }],
+    ["meta", { name: 'robots', content: 'noindex' }],
     ["meta", {property: "og:type", content:"website"}],
     ["meta", {property: "og:title", content:"STPIHKAL: Sex Toy Protocols I Have Known And Loved"}],
     ["meta", {property: "og:url", content:"https://stpihkal.docs.buttplug.io"}],
