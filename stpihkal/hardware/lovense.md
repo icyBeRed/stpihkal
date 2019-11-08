@@ -14,10 +14,11 @@ and firmware versions. Other models and versions may differ.
 
 ### Test Devices
 
-1. Nora, produced 2019-04Apr-16, generation 6, firmware 122
-1. Lush, produced 2019-07Jul-26, generation 2, firmware 123
+1. Lush, produced 2015-10Oct-09, generation 1, firmware 2
 1. Hush, produced 2016-05May-07, generation 1, firmware 11
 1. Domi, produced 2019-01Jan-24, generation 1, firmware 41
+1. Nora, produced 2019-04Apr-16, generation 6, firmware 122
+1. Lush, produced 2019-07Jul-26, generation 2, firmware 123
 
 ## Bluetooth Details
 
@@ -97,8 +98,8 @@ of `UNKNOWN;`.
 
 <!-- controls -->
 
-- [Vibration](#vibration): `Vibrate`, `Vibrate1`, `Vibrate2`
-- [Rotation](#rotation): `Rotate`, `RotateAntiClockwise`
+- [Vibration](#vibration): `Vibrate`
+- [Rotation](#rotation): `Rotate`
 
 <!-- programming -->
 
@@ -107,7 +108,7 @@ of `UNKNOWN;`.
 
 <!-- settings -->
 
-- [Light Settings](#light-settings): `GetLight`, `GetALight`, `Light`, `ALight`
+- [Light Settings](#light-settings): `GetLight`, `GetAlight`, `Light`, `ALight`
 - [Connectivity Settings](#connectivity-settings): `GetAS`, `AutoSwith`
 
 <!-- niche -->
@@ -122,8 +123,9 @@ Returns device's model, firmware version, and Bluetooth MAC address, as a
 colon-delimited list. The model is identified using a single character, as
 follows:
 
-- `A` or `C`: Nora
+- `A`: Nora
 - `B`: Max
+- `C`: Nora
 - `L`: Ambi
 - `O`: Osci
 - `P`: Edge
@@ -145,6 +147,9 @@ C:11:0082059AD3BD;
 #### `GetBatch;` (All)
 
 Returns the production batch date for this device in `YYMMDD` format.
+
+In some model the response may be terminated with a comma instead of a
+semicolon.
 
 For example, given a device with a production batch date of January 24, 2019:
 
@@ -202,11 +207,6 @@ Vibrate:10;
 OK;
 ```
 
-#### `Vibrate1:$SPEED;`, and `Vibrate2:$SPEED;` (Edge)
-
-Edge devices have two separate vibrators which may be controlled independently
-using the `Vibrate1` and `Vibrate2` variants of the `Vibrate` command.
-
 ### Rotation
 
 #### `Rotate:$CLOCKWISE:$SPEED;` (Nora)
@@ -236,7 +236,7 @@ Toggles the rotation direction without changing its speed.
 
 ### Patterns
 
-#### `GetPatten;` (Lush, Hush, Ambi, Domi, Edge, Osci)
+#### `GetPatten;` (Lush 2, Hush, Domi)
 
 List the indexes of the patterns that are currently programmed into the device.
 The maximum number of patterns in 10, so each index will always be a single
@@ -253,7 +253,7 @@ GetPatten;
 P:01234;
 ```
 
-#### `GetPatten:$INDEX;` (Lush, Hush, Ambi, Domi, Edge, Osci)
+#### `GetPatten:$INDEX;` (Lush 2, Hush, Ambi, Domi)
 
 Returns a pattern that is currently programmed into the device.
 
@@ -296,13 +296,13 @@ GetPatten:4;
 P4:01/01:346797643;
 ```
 
-#### `Preset:$INDEX;` (Lush, Hush, Ambi, Domi, Edge, Osci)
+#### `Preset:$INDEX;` (Lush G2, Hush, Domi)
 
 Starts running a programmed pattern on a loop. Takes an positive integer pattern
 index to start running it, or 0 to stop running the pattern.
 
-While Domi is able to take any pattern index, from 0 to 10, Lush 2 only seems to
-be able to take indices from 0 to 4. Other toys have not been tested.
+While Domi is able to take any pattern index, from 0 to 10, Lush G2 only seems
+to be able to take indices from 0 to 4. Other toys have not been tested.
 
 ```
 Preset:8;
