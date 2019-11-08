@@ -1,13 +1,23 @@
 # Lovense
 
+> **⚠️ Warning**: You may want
+> [the original upstream version of this document](https://stpihkal.docs.buttplug.io/hardware/lovense.html)
+> instead. This is a draft that I am rewriting as I research my test devices,
+> and may be less complete.
+
 ## Introduction
 
 [Lovense](https://www.lovense.com/) has been manufacturing sex toys since 2011.
+Many of their product models have undergone revisions and updates over the
+years. The following specification is only validated again the following models
+and firmware versions. Other models and versions may differ.
 
-Many of their product models have undergone revisions over the years. For
-example, the Nora is currently on generation 6. If there are differences in
-capabilities between revisions, they may have been overlooked here. We also
-assume that devices are running with all available firmware updates installed.
+### Test Devices
+
+1. Nora, produced 2019-04Apr-16, generation 6, firmware 122
+1. Lush, produced 2019-07Jul-26, generation 2, firmware 123
+1. Hush, produced 2016-05May-07, generation 1, firmware 11
+1. Domi, produced 2019-01Jan-24, generation 1, firmware 41
 
 ## Bluetooth Details
 
@@ -88,9 +98,7 @@ of `UNKNOWN;`.
 <!-- controls -->
 
 - [Vibration](#vibration): `Vibrate`, `Vibrate1`, `Vibrate2`
-- [Rotation](#rotation): `Rotate`,
-  `RotateAntiClockwise`
-- [Inflation](#inflation): `Air`
+- [Rotation](#rotation): `Rotate`, `RotateAntiClockwise`
 
 <!-- programming -->
 
@@ -154,9 +162,9 @@ GetBatch;
 
 Returns the battery level of the device as an integer percentage from 0-100.
 
-This value may sometimes be prefixed with an `s` character. The reason for this
-is uncertain, but it might indicate that the toy is active and the battery is
-under load.
+If the device is currently vibrating, the battery value is prefixed with an `s`
+character. This may be because the battery reading appears to be much less
+accurate at these times, while the battery is under load.
 
 For example, given an idle device with 85% battery remaining:
 
@@ -168,34 +176,14 @@ Battery;
 85;
 ```
 
-### Motion
-
-#### `StartMove:1;` and `StopMove:1;` (Max, Nora)
-
-Enables and disables the accelerometer data stream. The device will send
-accelerometer data constantly <!-- TODO: approximately how frequently? --> until
-stop command is sent. Accelerometer data messages will be prefixed with the `G`
-character <!-- TODO: to distinguish it from other message replies sent
-concurrently? -->, followed by 3 16-bit signed integers in little-endian hexadecimal,
-indicating the 3D force vector measured by the device.
-
-For example:
+For example, given a vibrating device with 50% battery remaining :
 
 ```
-StartMove:1;
+Battery;
 ```
 
 ```
-GEF008312ED00;
-GE021316CA2CB;
-```
-
-```
-StopMove:1;
-```
-
-```
-OK;
+s50;
 ```
 
 ### Vibration
@@ -224,7 +212,7 @@ using the `Vibrate1` and `Vibrate2` variants of the `Vibrate` command.
 #### `Rotate:$CLOCKWISE:$SPEED;` (Nora)
 
 Sets the rotation speed to `$SPEED` of the Nora device, using an integer scale
-from 0 to 20. If "$CLOCKWISE" is `True`, rotates clockwise, if it is `False`,
+from 0 to 20. If "\$CLOCKWISE" is `True`, rotates clockwise, if it is `False`,
 rotates anticlockwise.
 
 For example, to set the Nora device to rotate at 15/20 (75%) speed in the
@@ -245,30 +233,6 @@ Adjusts the rotation speed without changing the direction.
 #### `RotateChange;` (Nora)
 
 Toggles the rotation direction without changing its speed.
-
-### Inflation
-
-#### `Air:Level:$LEVEL;` (Max)
-
-Set the inflation level of the device, using an integer scale from 0 to 5.
-
-For example, to set the device to 3/5 inflation (60%):
-
-```
-Air:Level:3;
-```
-
-```
-OK;
-```
-
-#### `Air:In:$LEVELS;` (Max)
-
-Increases the inflation level of the Max device by `$LEVELS`.
-
-#### `Air:Out:$LEVELS;` (Max)
-
-Decreases the inflation level of the Max device by `$LEVELS`.
 
 ### Patterns
 
