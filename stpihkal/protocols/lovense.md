@@ -2,15 +2,47 @@
 
 ## Background
 
-Lovense has been manufacturing toys since 2011. Many of their toy models have
-undergone multiple hardware and firmware revisions since. The protocol changes
-between versions are usually minor, but for clarity: unless otherwise indicated,
-this document refers to the latest of hardware and firmware for a given model.
+[Lovense](https://www.lovense.com/) has been manufacturing wireless Bluetooth
+sex toys since 2011. Many of their models lines have undergone multiple hardware
+and firmware revisions in that time. The protocol changes are usually minor, but
+for clarity: unless otherwise indicated, this document refers to the latest
+hardware and firmware revisions for each model.
 
 ## Bluetooth Details
 
-While all Lovense toys use the same protocol, they can communicate over
-Bluetooth differently, depending on when they were released.
+Lovense toys use a serial-style RPC protocol over Bluetooth, with commands
+messages sent from the client and result messages sent from the toy. Messages
+are terminated by `;` semicolons. Supported commands will always recieve one or
+more results, unless that command itself is to disconnect/shut down the toy.
+Here is an example session (with whitespace added to indicate sender/reciever).
+
+```
+DeviceType;
+
+  C:11:0082059AD3BD;
+
+GetBatch;
+
+  190124;
+
+Battery;
+
+  95;
+
+GetPatten;
+
+  P:01234;
+
+GetPatten:4;
+
+  P4:1/5:000042003720;
+  P4:2/5:000002436658;
+  P4:3/5:997339993001;
+  P4:4/5:291111115111;
+  P4:5/5:1110000000;
+
+PowerOff;
+```
 
 ### Bluetooth 2.0 Toys
 
@@ -96,35 +128,35 @@ of which is mentioned in the description.
 
 ### Support by Model
 
-| Command                   | Ambi | Domi | Edge | Hush | Lush | Max | Nora | Osci | Quake |
-| ------------------------- | :--: | :--: | :--: | :--: | :--: | :-: | :--: | :--: | :---: |
-| [`Air:In:𝛘`]              |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
-| [`Air:Level:𝛘`]           |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
-| [`Air:Out:𝛘`]             |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
-| [`ALight:𝛘`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`AutoSwith:𝛘:𝛄`]         |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Battery`]               |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
-| [`DeviceType`]            |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
-| [`GetALight`]             |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetAS`]                 |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetBatch`]              |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
-| [`GetLevel`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetLight`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetPatten:𝛘`]           |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetPatten`]             |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Light:𝛘`]               |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`PowerOff`]              |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |   ❔   |
-| [`Preset:𝛘`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Rotate:𝛘`]              |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
-| [`RotateAntiClockwise:𝛘`] |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
-| [`RotateChange`]          |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
-| [`RotateClockwise:𝛘`]     |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
-| [`SetLevel`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`StartMove:𝛘`]           |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ✔️  |  ❌   |   ❌   |
-| [`Status:𝛘`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❌   |
-| [`StopMove:𝛘`]            |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ✔️  |  ❌   |   ❌   |
-| [`Vibrate:𝛘`]             | All  |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Vibrate𝛘:𝛄`]            |  ❔   |  ❔   |  ✔️  |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |  ✔️   |
+| Command                   | Ambi | Diamo | Domi | Edge | Ferri | Hush | Lush | Max | Nora | Osci | Quake |
+| ------------------------- | :--: | :---: | :--: | :--: | :---: | :--: | :--: | :-: | :--: | :--: | :---: |
+| [`Air:In:𝛘`]              |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
+| [`Air:Level:𝛘`]           |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
+| [`Air:Out:𝛘`]             |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
+| [`ALight:𝛘`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`AutoSwith:𝛘:𝛄`]         |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`Battery`]               |  ✔️  |   ❔   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
+| [`DeviceType`]            |  ✔️  |   ❔   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
+| [`GetALight`]             |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`GetAS`]                 |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`GetBatch`]              |  ✔️  |   ❔   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
+| [`GetLevel`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`GetLight`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`GetPatten:𝛘`]           |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`GetPatten`]             |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`Light:𝛘`]               |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`PowerOff`]              |  ✔️  |   ❔   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |   ❔   |
+| [`Preset:𝛘`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`Rotate:𝛘`]              |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
+| [`RotateAntiClockwise:𝛘`] |  ❌   |   ❌   |  ❌   |  ❌   |   ❌   |  ❌   |  ✔️  |  ❌  |  ❌   |      |       |
+| [`RotateChange`]          |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
+| [`RotateClockwise:𝛘`]     |  ❌   |   ❌   |  ❌   |  ❌   |   ❌   |  ❌   |  ✔️  |  ❌  |  ❌   |      |       |
+| [`SetLevel`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`StartMove:𝛘`]           |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |  ✔️  |  ❌   |   ❌   |
+| [`Status:𝛘`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❌   |
+| [`StopMove:𝛘`]            |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |  ✔️  |  ❌   |   ❌   |
+| [`Vibrate:𝛘`]             | All  |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`Vibrate𝛘:𝛄`]            |  ❔   |   ❔   |  ❔   |  ✔️  |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |  ✔️   |
 
 [`Air:In:𝛘`]: #AirIn𝛘
 [`Air:Level:𝛘`]: #AirLevel𝛘
@@ -762,8 +794,11 @@ Domi response using one-digit part indices:
 _Return Example_
 
 ```
-P4:1/5:000042003720; P4:2/5:000002436658; P4:3/5:997339993001;
-P4:4/5:291111115111; P4:5/5:1110000000;
+P4:1/5:000042003720;
+P4:2/5:000002436658;
+P4:3/5:997339993001;
+P4:4/5:291111115111;
+P4:5/5:1110000000;
 ```
 
 Lush 2 response using two-digit part indices:
