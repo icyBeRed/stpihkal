@@ -120,35 +120,35 @@ Commands for Lovense toys follows these rules:
 
 ### Support Matrix
 
-| Command                   | Ambi | Diamo | Domi | Edge | Ferri | Hush | Lush | Max | Nora | Osci | Quake |
-| ------------------------- | :--: | :---: | :--: | :--: | :---: | :--: | :--: | :-: | :--: | :--: | :---: |
-| [`Air:In:𝛘`]              |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
-| [`Air:Level:𝛘`]           |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
-| [`Air:Out:𝛘`]             |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
-| [`ALight:𝛘`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`AutoSwith:𝛘:𝛄`]         |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Battery`]               |  ✔️  |   ❔   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
-| [`DeviceType`]            |  ✔️  |   ❔   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
-| [`GetALight`]             |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetAS`]                 |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetBatch`]              |  ✔️  |   ❔   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
-| [`GetLevel`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetLight`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetPatten:𝛘`]           |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetPatten`]             |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Light:𝛘`]               |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`PowerOff`]              |  ✔️  |   ❔   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |   ❔   |
-| [`Preset:𝛘`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Rotate:𝛘`]              |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
-| [`RotateAntiClockwise:𝛘`] |  ❌   |   ❌   |  ❌   |  ❌   |   ❌   |  ❌   |  ✔️  |  ❌  |  ❌   |      |       |
-| [`RotateChange`]          |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
-| [`RotateClockwise:𝛘`]     |  ❌   |   ❌   |  ❌   |  ❌   |   ❌   |  ❌   |  ✔️  |  ❌  |  ❌   |      |       |
-| [`SetLevel`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`StartMove:𝛘`]           |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |  ✔️  |  ❌   |   ❌   |
-| [`Status:𝛘`]              |  ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❌   |
-| [`StopMove:𝛘`]            |  ❌   |   ❔   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |  ✔️  |  ❌   |   ❌   |
-| [`Vibrate:𝛘`]             | All  |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Vibrate𝛘:𝛄`]            |  ❔   |   ❔   |  ❔   |  ✔️  |   ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |  ✔️   |
+| Command                   | [Ambi] | [Diamo] | [Domi] | [Edge] | [Ferri] | [Hush] | [Lush] | [Max] | [Nora] | [Osci] | [Quake] |
+| :------------------------ | :----: | :-----: | :----: | :----: | :-----: | :----: | :----: | :---: | :----: | :----: | :-----: |
+| [`Air:In:𝛘`]              |   ❌    |    ❔    |   ❌    |   ❌    |    ❔    |   ❌    |   ❌    |  ✔️   |   ❌    |   ❌    |    ❌    |
+| [`Air:Level:𝛘`]           |   ❌    |    ❔    |   ❌    |   ❌    |    ❔    |   ❌    |   ❌    |  ✔️   |   ❌    |   ❌    |    ❌    |
+| [`Air:Out:𝛘`]             |   ❌    |    ❔    |   ❌    |   ❌    |    ❔    |   ❌    |   ❌    |  ✔️   |   ❌    |   ❌    |    ❌    |
+| [`ALight:𝛘`]              |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`AutoSwith:𝛘:𝛄`]         |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`Battery`]               |   ✔️   |    ❔    |   ✔️   |   ✔️   |    ❔    |   ✔️   |   ✔️   |  ✔️   |   ✔️   |   ✔️   |   ✔️    |
+| [`DeviceType`]            |   ✔️   |    ❔    |   ✔️   |   ✔️   |    ❔    |   ✔️   |   ✔️   |  ✔️   |   ✔️   |   ✔️   |   ✔️    |
+| [`GetALight`]             |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`GetAS`]                 |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`GetBatch`]              |   ✔️   |    ❔    |   ✔️   |   ✔️   |    ❔    |   ✔️   |   ✔️   |  ✔️   |   ✔️   |   ✔️   |   ✔️    |
+| [`GetLevel`]              |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`GetLight`]              |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`GetPatten:𝛘`]           |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`GetPatten`]             |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`Light:𝛘`]               |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`PowerOff`]              |   ✔️   |    ❔    |   ✔️   |   ✔️   |    ❔    |   ✔️   |   ✔️   |  ✔️   |   ✔️   |   ✔️   |    ❔    |
+| [`Preset:𝛘`]              |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`Rotate:𝛘`]              |   ❌    |    ❔    |   ❌    |   ❌    |    ❔    |   ❌    |   ❌    |   ❌   |   ✔️   |   ❌    |    ❌    |
+| [`RotateAntiClockwise:𝛘`] |   ❌    |    ❌    |   ❌    |   ❌    |    ❌    |   ❌    |   ✔️   |   ❌   |   ❌    |        |         |
+| [`RotateChange`]          |   ❌    |    ❔    |   ❌    |   ❌    |    ❔    |   ❌    |   ❌    |   ❌   |   ✔️   |   ❌    |    ❌    |
+| [`RotateClockwise:𝛘`]     |   ❌    |    ❌    |   ❌    |   ❌    |    ❌    |   ❌    |   ✔️   |   ❌   |   ❌    |        |         |
+| [`SetLevel`]              |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`StartMove:𝛘`]           |   ❌    |    ❔    |   ❌    |   ❌    |    ❔    |   ❌    |   ❌    |  ✔️   |   ✔️   |   ❌    |    ❌    |
+| [`Status:𝛘`]              |   ❔    |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❌    |
+| [`StopMove:𝛘`]            |   ❌    |    ❔    |   ❌    |   ❌    |    ❔    |   ❌    |   ❌    |  ✔️   |   ✔️   |   ❌    |    ❌    |
+| [`Vibrate:𝛘`]             |  All   |    ❔    |   ❔    |   ❔    |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |    ❔    |
+| [`Vibrate𝛘:𝛄`]            |   ❔    |    ❔    |   ❔    |   ✔️   |    ❔    |   ❔    |   ❔    |   ❔   |   ❔    |   ❔    |   ✔️    |
 
 [`Air:In:𝛘`]: #AirIn𝛘
 [`Air:Level:𝛘`]: #AirLevel𝛘
@@ -177,6 +177,17 @@ Commands for Lovense toys follows these rules:
 [`StopMove:𝛘`]: #StopMove:𝛘
 [`Vibrate:𝛘`]: #Vibrate:𝛘
 [`Vibrate𝛘:𝛄`]: #Vibrate:𝛘:𝛄
+[Ambi]: https://www.lovense.com/mini-bullet-vibrator-for-clitoral-simulation
+[Diamo]: https://www.lovense.com/bluetooth-vibrating-cock-ring
+[Domi]: https://www.lovense.com/super-powerful-wand-massager
+[Edge]: https://www.lovense.com/adjustable-prostate-massager
+[Ferri]: https://www.lovense.com/magnetic-panty-vibrator
+[Hush]: https://www.lovense.com/vibrating-butt-plug
+[Lush]: https://www.lovense.com/bluetooth-remote-control-vibrator
+[Max]: https://www.lovense.com/male-masturbators
+[Nora]: https://www.lovense.com/rabbit-vibrator
+[Osci]: https://www.lovense.com/oscillating-gspot-vibrator
+[Quake]: https://www.lovense.com/adjustable-dual-clit-gspot-vibrator
 
 ### `Air:In:𝛘`
 
@@ -191,6 +202,34 @@ Commands for Lovense toys follows these rules:
 ### `Battery`
 
 ### `DeviceType`
+
+Returns the toy's model identifier, firmware version, and Bluetooth MAC address,
+as a colon-delimited list.
+
+| Model | Identifier |
+| :---- | :--------: |
+| Ambi  |    `L`     |
+| Diamo |     ❔      |
+| Domi  |    `W`     |
+| Edge  |    `P`     |
+| Ferri |     ❔      |
+| Hush  |    `Z`     |
+| Lush  |    `S`     |
+| Max   |    `B`     |
+| Nora  | `A` or `C` |
+| Osci  |    `O`     |
+| Quake |    `J`     |
+
+#### Example
+
+```
+DeviceType;
+
+  C:11:0082059AD3BD;
+```
+
+Denotes a "Nora" toy model, running firmware version 1.1, with a Bluetooth
+address of `00:82:05:9A:D3:BD`.
 
 ### `GetALight`
 
@@ -231,42 +270,6 @@ Commands for Lovense toys follows these rules:
 ### `Vibrate:𝛘`
 
 ### `Vibrate𝛘:𝛄`
-
-#### Get Device Information
-
-Returns toy model type, firmware version, and Bluetooth MAC address, as a colon
-delimited list
-
-_Availability:_ All toys
-
-_Command Format_
-
-```
-DeviceType;
-```
-
-_Return Example_
-
-```
-C:11:0082059AD3BD;
-```
-
-Denotes Nora toy, running v1.1 firmware, with a Bluetooth address of
-00:82:05:9A:D3:BD
-
-**Model Types:**
-
-| Model | Type Letter |
-| ----- | ----------- |
-| Nora  | A or C      |
-| Max   | B           |
-| Ambi  | L           |
-| Lush  | S           |
-| Hush  | Z           |
-| Domi  | W           |
-| Edge  | P           |
-| Osci  | O           |
-| Quake | J           |
 
 #### Get Battery Level
 
