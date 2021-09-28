@@ -10,11 +10,18 @@ hardware and firmware revisions for each model.
 
 ## Bluetooth Details
 
-Lovense toys use a serial-style RPC protocol over Bluetooth, with commands
-messages sent from the client and result messages sent from the toy. Messages
-are terminated by `;` semicolons. Supported commands will always recieve one or
-more results, unless that command itself is to disconnect/shut down the toy.
-Here is an example session (with whitespace added to indicate sender/reciever).
+Lovense toys use a serial-style RPC protocol over Bluetooth, with command
+messages sent from the client and response messages sent from the toy. Messages
+are terminated by `;` semicolons. Valid commands will always recieve at least
+one response, unless that command itself shuts down the toy first.
+
+Depending on the model and firmware versions, valid commands that do not have
+meaningful return value will respond with either the string `OK` or the original
+command string, while invalid commands will respond with either `ERR` or
+`UNKNOWN,` followed by the original command string.
+
+Here is an example session, with whitespace added to distinguish transmitter and
+reciever.
 
 ```
 DeviceType;
@@ -44,64 +51,36 @@ GetPatten:4;
 PowerOff;
 ```
 
-### Bluetooth 2.0 Toys
+Early Lovense toys supported exchanging these messages over a Bluetooth SPP
+duplex stream for backwards compatibility, but the preferred (and now only)
+approach is instead to use a Bluetooth LE service exposing a single GATT
+characteristic, which can be assigned a value to transmit a message, and which
+emits a value change notification for each recieved message.
 
-The first toys released by Lovense used both Bluetooth 2.0 SPP (emulating a
-serial port) and Bluetooth LE. This was most likely due to the sparse mobile
-support of BTLE when they were released.
+The specific names and UUIDs used to identify Lovense Bluetooth LE services and
+characteristics can vary across models and firmware versions, but they seem to
+confirm to the following rules:
 
-These toys include:
+- Device names must consist of the following:
+  - the prefix `LVS-`, followed by
+  - a name or identifier indicating a Lovense model line, followed by
+  - a two digit suffix indicating the firmware version
+- Service UUIDs must match one of the following:
+  - `0000fff0-0000-1000-8000-00805f9b34fb` (first generation)
+  - `6e400001-b5a3-f393-e0a9-e50e24dcca9e` (second generation)
+  - `XY300001-002Z-4bd4-bbd5-a6920e4c5653`, where
+    - `X` is the digit `4` or `5`
+    - `Y` is any digit (`0` to `F`)
+    - `Z` is the digit `3` or `4`
+- Characteristic UUIDs may have any value.
 
-- Max
-- Nora
-
-When paired with a system via Bluetooth 2.0, these toys identify as a serial
-port. These toys are also capable of using Bluetooth LE, as outlined in the next
-section.
-
-### Bluetooth LE Toys
-
-Starting with the Lush, all toys released by Lovense use only Bluetooth LE.
-
-These toys have GATT characteristics to mimic the RX/TX setup of the serial port
-style control of the old toys. The GATT service and characteristic IDs differ
-between different toy firmware versions.
-
-It's difficult to keep a current list of exact Lovense device names and
-service/characteristic UUIDs, as they tend to change rapidly on firmware
-updates. The following rules can be used for finding and connecting to Lovense
-toys.
-
-Lovense toy names always start with "LVS-". What comes after that varies
-depending on when the toy was released. Early toys used names involving the
-single character identifier, like "LVS-A011", while newer toys use the full
-product name, like "LVS-Edge36". The last 2 numbers denote the firmware version
-the toy is running.
-
-Lovense toys usually have one of 3 service ID formats:
-
-```
-0000fff0-0000-1000-8000-00805f9b34fb
-6e400001-b5a3-f393-e0a9-e50e24dcca9e
-XY300001-002Z-4bd4-bbd5-a6920e4c5653
-```
-
-The first two service IDs are static, and represent the service IDs used by
-first and second generation Lovense toys. The 3rd service ID can vary, with
-
-- X usually being 0x4 or 0x5
-- Y being any number 0x0-0xf
-- Z usually being 0x3 or 0x4
-
-While some Bluetooth APIs can wildcard services, others like WebBluetooth
-require an exact service UUID to connect. For these instances, it's recommended
-to just generate out all 32 variations of the last service, for a total of 34
-services, to use with the optionalServices portion of a WebBluetooth connection
-filter.
-
-To identify the type of toy after connecting, it is recommended to use the
-[DeviceType;](lovense.md#get-device-information) message, outlined below. This
-will return a device model identifier.
+If you are using a Bluetooth API such as WebBluetooth which requires all service
+UUIDs to be declared upfront, you may need to generate the full list of possible
+permutation of these rules. The service will only declare a single
+characteristic, which your Bluetooth API should let you access without knowing
+the UUID ahead of time. Once connected, you may want to start by using the
+[`DeviceType`] command to confirm that the device you've connected to is the one
+you expect.
 
 ## Protocol
 
