@@ -13,7 +13,8 @@ hardware and firmware revisions for each model line.
 Lovense toys use a serial-style RPC protocol over Bluetooth, with command
 messages sent from the client and response messages sent from the toy. Messages
 are terminated by `;` semicolons. Valid commands will always receive at least
-one response, unless that command itself shuts down the toy first.
+one response, unless that command itself shuts down the toy first. Arguments and
+responses are often delimited by `:` colons.
 
 Depending on the model and firmware versions, valid commands that do not have
 meaningful return value will respond with either the string `OK` or the original
@@ -92,69 +93,75 @@ to identify the model in the toy's Bluetooth name and `DeviceType` response.
 | Model   | Identifier | Notes                    |
 | :------ | :--------: | :----------------------- |
 | Ambi    |    `L`     |                          |
-| Diamo   |     ❔      |                          |
+| Diamo   |     ❓      |                          |
 | Dolce   |    `J`     | previously named "Quake" |
 | Domi    |    `W`     |                          |
 | Edge    |    `P`     |                          |
-| Ferri   |     ❔      |                          |
+| Ferri   |     ❓      |                          |
 | Hush    |    `Z`     |                          |
 | Lush    |    `S`     |                          |
 | Max     |    `B`     |                          |
-| Mission |     ❔      | no longer in production  |
+| Mission |     ❓      | no longer in production  |
 | Nora    |    `A`     | newer Nora toys use `A`  |
 | Nora    |    `C`     | older Nora toys use `C`  |
 | Osci    |    `O`     |                          |
 
 ## Commands
 
+Note that there are many inconsistencies of formatting, spelling, and
+capitalization between the commands and responses. Be sure to copy the values
+exactly as the protocol expects.
+
 ### Compatibility Matrix
 
 | Command                   | Ambi | Diamo | Dolce | Domi | Edge | Ferri | Hush | Lush | Max | Mission | Nora | Osci |
 | :------------------------ | :--: | :---: | :---: | :--: | :--: | :---: | :--: | :--: | :-: | :-----: | :--: | :--: |
-| [`Air:In:𝛘`]              |  ❌   |   ❌   |   ❌   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |    ❔    |  ❌   |  ❌   |
-| [`Air:Level:𝛘`]           |  ❌   |   ❌   |   ❌   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |    ❔    |  ❌   |  ❌   |
-| [`Air:Out:𝛘`]             |  ❌   |   ❌   |   ❌   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |    ❔    |  ❌   |  ❌   |
+| [`Battery`]               |  ✔️  |  ✔️   |  ✔️   |  ✔️  |  ✔️  |  ✔️   |  ✔️  |  ✔️  | ✔️  |   ✔️    |  ✔️  |  ✔️  |
+| [`DeviceType`]            |  ✔️  |  ✔️   |  ✔️   |  ✔️  |  ✔️  |  ✔️   |  ✔️  |  ✔️  | ✔️  |   ✔️    |  ✔️  |  ✔️  |
+| [`GetBatch`]              |  ✔️  |  ✔️   |  ✔️   |  ✔️  |  ✔️  |  ✔️   |  ✔️  |  ✔️  | ✔️  |   ✔️    |  ✔️  |  ✔️  |
+| [`PowerOff`]              |  ✔️  |  ✔️   |  ✔️   |  ✔️  |  ✔️  |  ✔️   |  ✔️  |  ✔️  | ✔️  |   ✔️    |  ✔️  |  ✔️  |
+| [`Vibrate:𝛘`]             |  ✔️  |  ✔️   |  ✔️   |  ✔️  |  ✔️  |  ✔️   |  ✔️  |  ✔️  | ✔️  |   ✔️    |  ✔️  |  ✔️  |
+|                           |      |       |       |      |      |       |      |      |     |         |      |      |
+| [`Air:In:𝛘`]              |  ❌   |   ❌   |   ❌   |  ❌   |  ❌   |   ❌   |  ❌   |  ❌   | ✔️  |    ❌    |  ❌   |  ❌   |
+| [`Air:Level:𝛘`]           |  ❌   |   ❌   |   ❌   |  ❌   |  ❌   |   ❌   |  ❌   |  ❌   | ✔️  |    ❌    |  ❌   |  ❌   |
+| [`Air:Out:𝛘`]             |  ❌   |   ❌   |   ❌   |  ❌   |  ❌   |   ❌   |  ❌   |  ❌   | ✔️  |    ❌    |  ❌   |  ❌   |
 | [`ALight:𝛘`]              |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
 | [`AutoSwith:𝛘:𝛄`]         |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
-| [`Battery`]               |  ✔️  |   ❔   |  ✔️   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |    ❔    |  ✔️  |  ✔️  |
-| [`DeviceType`]            |  ✔️  |   ❔   |  ✔️   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |    ❔    |  ✔️  |  ✔️  |
-| [`GetALight`]             |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
+| [`GetAlight`]             |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
 | [`GetAS`]                 |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
-| [`GetBatch`]              |  ✔️  |   ❔   |  ✔️   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |    ❔    |  ✔️  |  ✔️  |
 | [`GetLevel`]              |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
 | [`GetLight`]              |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
 | [`GetPatten:𝛘`]           |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
 | [`GetPatten`]             |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
 | [`Light:𝛘`]               |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
-| [`PowerOff`]              |  ✔️  |   ❔   |   ❔   |  ✔️  |  ✔️  |   ❔   |  ✔️  |  ✔️  | ✔️  |    ❔    |  ✔️  |  ✔️  |
 | [`Preset:𝛘`]              |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
-| [`Rotate:𝛘`]              |  ❌   |   ❔   |   ❌   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   |  ❌  |    ❔    |  ✔️  |  ❌   |
-| [`RotateAntiClockwise:𝛘`] |  ❌   |       |       |  ❌   |  ❌   |   ❌   |  ❌   |  ❌   | ✔️  |    ❔    |  ❌   |  ❌   |
-| [`RotateChange`]          |  ❌   |   ❔   |   ❌   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   |  ❌  |    ❔    |  ✔️  |  ❌   |
-| [`RotateClockwise:𝛘`]     |  ❌   |       |       |  ❌   |  ❌   |   ❌   |  ❌   |  ❌   | ✔️  |    ❔    |  ❌   |  ❌   |
+| [`Rotate:𝛘`]              |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
+| [`RotateAntiClockwise:𝛘`] |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
+| [`RotateChange`]          |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
+| [`RotateClockwise:𝛘`]     |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
 | [`SetLevel`]              |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
-| [`StartMove:𝛘`]           |  ❌   |   ❔   |   ❌   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |    ❔    |  ✔️  |  ❌   |
-| [`Status:𝛘`]              |  ❔   |   ❔   |   ❌   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
-| [`StopMove:𝛘`]            |  ❌   |   ❔   |   ❌   |  ❌   |  ❌   |   ❔   |  ❌   |  ❌   | ✔️  |    ❔    |  ✔️  |  ❌   |
-| [`Vibrate:𝛘`]             | All  |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
-| [`Vibrate𝛘:𝛄`]            |  ❔   |   ❔   |  ✔️   |  ❔   |  ✔️  |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
+| [`StartMove:𝛘`]           |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
+| [`Status:𝛘`]              |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
+| [`StopMove:𝛘`]            |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
+| [`Vibrate𝛘:𝛄`]            |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
 
+[`Battery`]: #Battery
+[`DeviceType`]: #DeviceType
+[`GetBatch`]: #GetBatch
+[`PowerOff`]: #PowerOff
+[`Vibrate:𝛘`]: #Vibrate:𝛘
 [`Air:In:𝛘`]: #AirIn𝛘
 [`Air:Level:𝛘`]: #AirLevel𝛘
 [`Air:Out:𝛘`]: #AirOut𝛘
 [`ALight:𝛘`]: #ALight𝛘
 [`AutoSwith:𝛘:𝛄`]: #AutoSwith𝛘𝛄
-[`Battery`]: #Battery
-[`DeviceType`]: #DeviceType
-[`GetALight`]: #GetALight
+[`GetAlight`]: #GetAlight
 [`GetAS`]: #GetAS
-[`GetBatch`]: #GetBatch
 [`GetLevel`]: #GetLevel
 [`GetLight`]: #GetLight
 [`GetPatten:𝛘`]: #GetPatten𝛘
 [`GetPatten`]: #GetPatten
 [`Light:𝛘`]: #Light𝛘
-[`PowerOff`]: #PowerOff
 [`Preset:𝛘`]: #Preset𝛘
 [`Rotate:𝛘`]: #Rotate𝛘
 [`RotateAntiClockwise:𝛘`]: #RotateAntiClockwise𝛘
@@ -164,25 +171,13 @@ to identify the model in the toy's Bluetooth name and `DeviceType` response.
 [`StartMove:𝛘`]: #StartMove:𝛘
 [`Status:𝛘`]: #Status:𝛘
 [`StopMove:𝛘`]: #StopMove:𝛘
-[`Vibrate:𝛘`]: #Vibrate:𝛘
 [`Vibrate𝛘:𝛄`]: #Vibrate:𝛘:𝛄
-
-### `Air:In:𝛘`
-
-### `Air:Level:𝛘`
-
-### `Air:Out:𝛘`
-
-### `ALight:𝛘`
-
-### `AutoSwith:𝛘:𝛄`
 
 ### `Battery`
 
-Returns the battery level of the toy as an integer percentage from 0-100.
-
-Some toys will also prepend an `s` character (such as `s99`) to indicate when
-they are active (i.e. when a vibrator motor is turned on).
+Returns the battery level of the toy as an integer percentage from 0-100. Some
+toys will also prepend an `s` character (such as `s99`) to indicate when they
+are active (i.e. when a vibrator motor is turned on).
 
 #### Example
 
@@ -210,11 +205,70 @@ DeviceType;
 Denotes a "Nora" toy model, running firmware version 1.1, with a Bluetooth
 address of `00:82:05:9A:D3:BD`.
 
-### `GetALight`
+### `GetBatch`
+
+Returns the production batch number for this toy. The digits correspond to
+correspond to some `YYMMDD` date during production.
+
+#### Example
+
+```
+GetBatch;
+
+  190124;
+```
+
+### `PowerOff`
+
+Immediately powers off the toy. It disconnects before sending any result
+message.
+
+#### Example
+
+```
+PowerOff;
+```
+
+### `Vibrate:𝛘`
+
+### `Air:In:𝛘`
+
+### `Air:Level:𝛘`
+
+### `Air:Out:𝛘`
+
+### `ALight:𝛘`
+
+Enables (`On`) or disables (`Off`) the cosmetic ring of white LEDs on a Domi
+toy. This corresponds to the setting labelled "Enable/Disable Lights" in the
+Lovense Remote app. See also [`GetAlight`].
+
+#### Example
+
+```
+ALight:Off;
+
+  OK;
+```
+
+### `AutoSwith:𝛘:𝛄`
+
+### `GetAlight`
+
+Determine whether the cosmetic ring of white LEDs on a Domi toy are enabled
+(`1`) or disabled (`0`). This corresponds to the setting labelled
+"Enable/Disable Lights" in the Lovense Remote app. See also [`ALight:𝛘`].
+
+#### Example
+
+```
+GetAlight;
+
+
+  Alight:1;
+```
 
 ### `GetAS`
-
-### `GetBatch`
 
 ### `GetLevel`
 
@@ -225,8 +279,6 @@ address of `00:82:05:9A:D3:BD`.
 ### `GetPatten`
 
 ### `Light:𝛘`
-
-### `PowerOff`
 
 ### `Preset:𝛘`
 
@@ -246,27 +298,7 @@ address of `00:82:05:9A:D3:BD`.
 
 ### `StopMove:𝛘`
 
-### `Vibrate:𝛘`
-
 ### `Vibrate𝛘:𝛄`
-
-#### Turn Off Power
-
-Turns off power to the toy.
-
-_Availability:_ All toys
-
-_Command Format_
-
-```
-PowerOff;
-```
-
-_Return Example_
-
-```
-OK;
-```
 
 #### Device Status
 
@@ -672,25 +704,6 @@ _Return Example_
 OK;
 ```
 
-#### Get Production Batch Number
-
-Returns the production batch number for this toy. This digits appear to
-correspond to a `YYMMDD` date during manufacture.
-
-_Availability:_ All toys? Confirmed: Lush 2, Hush, Domi, Dolce.
-
-_Command Format_
-
-```
-GetBatch;
-```
-
-_Return Example_
-
-```
-190124;
-```
-
 #### Count Programmed Patterns
 
 List the indexes of the patterns that are currently programmed into the toy. The
@@ -759,7 +772,7 @@ _Return Example_
 P4:01/01:346797643;
 ```
 
-#### Run Programmed Patern
+#### Run Programmed Pattern
 
 Starts running a programmed pattern on a loop. Takes an positive integer pattern
 index to start running it, or 0 to stop running the pattern.
