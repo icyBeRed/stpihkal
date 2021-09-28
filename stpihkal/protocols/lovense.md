@@ -7,68 +7,6 @@ undergone multiple hardware and firmware revisions since. The protocol changes
 between versions are usually minor, but for clarity: unless otherwise indicated,
 this document refers to the latest of hardware and firmware for a given model.
 
-## Supported Commands by Model
-
-| Command                   | Ambi | Domi | Edge | Hush | Lush | Max | Nora | Osci | Quake |
-| ------------------------- | :--: | :--: | :--: | :--: | :--: | :-: | :--: | :--: | :---: |
-| [`Air:In:𝛘`]              |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
-| [`Air:Level:𝛘`]           |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
-| [`Air:Out:𝛘`]             |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
-| [`ALight:𝛘`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`AutoSwith:𝛘:𝛄`]         |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Battery`]               |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
-| [`DeviceType`]            |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
-| [`GetALight`]             |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetAS`]                 |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetBatch`]              |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
-| [`GetLevel`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetLight`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetPatten:𝛘`]           |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`GetPatten`]             |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Light:𝛘`]               |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`PowerOff`]              |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |   ❔   |
-| [`Preset:𝛘`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Rotate:𝛘`]              |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
-| [`RotateAntiClockwise:𝛘`] |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
-| [`RotateChange`]          |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
-| [`RotateClockwise:𝛘`]     |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
-| [`SetLevel`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`SetLevel`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`StartMove:𝛘`]           |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ✔️  |  ❌   |   ❌   |
-| [`Status:𝛘`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❌   |
-| [`StopMove:𝛘`]            |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ✔️  |  ❌   |   ❌   |
-| [`Vibrate:𝛘`]             | All  |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
-| [`Vibrate𝛘:𝛄`]            |  ❔   |  ❔   |  ✔️  |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |  ✔️   |
-
-[`Air:In:𝛘`]: #Air:In:𝛘
-[`Air:Level:𝛘`]: #Air:Level:𝛘
-[`Air:Out:𝛘`]: #Air:Out:𝛘
-[`ALight:𝛘`]: #ALight:𝛘
-[`AutoSwith:𝛘:𝛄`]: #AutoSwith:𝛘:𝛄
-[`Battery`]: #Battery
-[`DeviceType`]: #DeviceType
-[`GetALight`]: #GetALight
-[`GetAS`]: #GetAS
-[`GetBatch`]: #GetBatch
-[`GetLevel`]: #GetLevel
-[`GetLight`]: #GetLight
-[`GetPatten:𝛘`]: #GetPatten:𝛘
-[`GetPatten`]: #GetPatten
-[`Light:𝛘`]: #Light:𝛘
-[`PowerOff`]: #PowerOff
-[`Preset:𝛘`]: #Preset:𝛘
-[`Rotate:𝛘`]: #Rotate:𝛘
-[`RotateAntiClockwise:𝛘`]: #RotateAntiClockwise:𝛘
-[`RotateChange`]: #RotateChange
-[`RotateClockwise:𝛘`]: #RotateClockwise:𝛘
-[`SetLevel`]: #SetLevel
-[`SetLevel`]: #SetLevel
-[`StartMove:𝛘`]: #StartMove:𝛘
-[`Status:𝛘`]: #Status:𝛘
-[`StopMove:𝛘`]: #StopMove:𝛘
-[`Vibrate:𝛘`]: #Vibrate:𝛘
-[`Vibrate𝛘:𝛄`]: #Vibrate:𝛘:𝛄
-
 ## Bluetooth Details
 
 While all Lovense toys use the same protocol, they can communicate over
@@ -153,6 +91,122 @@ over the serial port is in quotes to denote communication, but should not be
 sent using quotes if you are implementing your own version of this protocol.
 Commands with ":x" mean that the x should be replaced with a number, the range
 of which is mentioned in the description.
+
+## Commands
+
+### Support by Model
+
+| Command                   | Ambi | Domi | Edge | Hush | Lush | Max | Nora | Osci | Quake |
+| ------------------------- | :--: | :--: | :--: | :--: | :--: | :-: | :--: | :--: | :---: |
+| [`Air:In:𝛘`]              |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
+| [`Air:Level:𝛘`]           |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
+| [`Air:Out:𝛘`]             |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ❌   |  ❌   |   ❌   |
+| [`ALight:𝛘`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`AutoSwith:𝛘:𝛄`]         |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`Battery`]               |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
+| [`DeviceType`]            |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
+| [`GetALight`]             |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`GetAS`]                 |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`GetBatch`]              |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |  ✔️   |
+| [`GetLevel`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`GetLight`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`GetPatten:𝛘`]           |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`GetPatten`]             |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`Light:𝛘`]               |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`PowerOff`]              |  ✔️  |  ✔️  |  ✔️  |  ✔️  |  ✔️  | ✔️  |  ✔️  |  ✔️  |   ❔   |
+| [`Preset:𝛘`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`Rotate:𝛘`]              |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
+| [`RotateAntiClockwise:𝛘`] |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
+| [`RotateChange`]          |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
+| [`RotateClockwise:𝛘`]     |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   |  ❌  |  ✔️  |  ❌   |   ❌   |
+| [`SetLevel`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`StartMove:𝛘`]           |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ✔️  |  ❌   |   ❌   |
+| [`Status:𝛘`]              |  ❔   |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❌   |
+| [`StopMove:𝛘`]            |  ❌   |  ❌   |  ❌   |  ❌   |  ❌   | ✔️  |  ✔️  |  ❌   |   ❌   |
+| [`Vibrate:𝛘`]             | All  |  ❔   |  ❔   |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |   ❔   |
+| [`Vibrate𝛘:𝛄`]            |  ❔   |  ❔   |  ✔️  |  ❔   |  ❔   |  ❔  |  ❔   |  ❔   |  ✔️   |
+
+[`Air:In:𝛘`]: #AirIn𝛘
+[`Air:Level:𝛘`]: #AirLevel𝛘
+[`Air:Out:𝛘`]: #AirOut𝛘
+[`ALight:𝛘`]: #ALight𝛘
+[`AutoSwith:𝛘:𝛄`]: #AutoSwith𝛘𝛄
+[`Battery`]: #Battery
+[`DeviceType`]: #DeviceType
+[`GetALight`]: #GetALight
+[`GetAS`]: #GetAS
+[`GetBatch`]: #GetBatch
+[`GetLevel`]: #GetLevel
+[`GetLight`]: #GetLight
+[`GetPatten:𝛘`]: #GetPatten𝛘
+[`GetPatten`]: #GetPatten
+[`Light:𝛘`]: #Light𝛘
+[`PowerOff`]: #PowerOff
+[`Preset:𝛘`]: #Preset𝛘
+[`Rotate:𝛘`]: #Rotate𝛘
+[`RotateAntiClockwise:𝛘`]: #RotateAntiClockwise𝛘
+[`RotateChange`]: #RotateChange
+[`RotateClockwise:𝛘`]: #RotateClockwise𝛘
+[`SetLevel`]: #SetLevel
+[`StartMove:𝛘`]: #StartMove:𝛘
+[`Status:𝛘`]: #Status:𝛘
+[`StopMove:𝛘`]: #StopMove:𝛘
+[`Vibrate:𝛘`]: #Vibrate:𝛘
+[`Vibrate𝛘:𝛄`]: #Vibrate:𝛘:𝛄
+
+### `Air:In:𝛘`
+
+### `Air:Level:𝛘`
+
+### `Air:Out:𝛘`
+
+### `ALight:𝛘`
+
+### `AutoSwith:𝛘:𝛄`
+
+### `Battery`
+
+### `DeviceType`
+
+### `GetALight`
+
+### `GetAS`
+
+### `GetBatch`
+
+### `GetLevel`
+
+### `GetLight`
+
+### `GetPatten:𝛘`
+
+### `GetPatten`
+
+### `Light:𝛘`
+
+### `PowerOff`
+
+### `Preset:𝛘`
+
+### `Rotate:𝛘`
+
+### `RotateAntiClockwise:𝛘`
+
+### `RotateChange`
+
+### `RotateClockwise:𝛘`
+
+### `SetLevel`
+
+### `StartMove:𝛘`
+
+### `Status:𝛘`
+
+### `StopMove:𝛘`
+
+### `Vibrate:𝛘`
+
+### `Vibrate𝛘:𝛄`
 
 #### Get Device Information
 
