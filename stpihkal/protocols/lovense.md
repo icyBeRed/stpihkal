@@ -21,6 +21,12 @@ meaningful return value will respond with either the string `OK` or the original
 command string, while invalid commands will respond with either the string `ERR`
 or the original command string prefixed with `UNKNOWN,`.
 
+Some response messages are prefixed to indicate which command they are in
+response to, but some are not. Typically, this is not a problem because as they
+are unambiguously in response to the most recent command. However, certain
+commands such as [`StartMove:𝛘`] can send responses interwoven with those from
+other commands, requiring more care.
+
 Here is an example session, with whitespace added to distinguish transmitter and
 receiver.
 
@@ -109,8 +115,41 @@ to identify the model in the toy's Bluetooth name and `DeviceType` response.
 ## Commands
 
 Note that there are many inconsistencies of formatting, spelling, and
-capitalization between the commands and responses. Be sure to copy the values
-exactly as the protocol expects.
+capitalization within the commands and responses. Make sure you are copying
+these values exactly as the protocol expect them.
+
+<!-- universal -->
+
+[`Battery`]: #Battery
+[`DeviceType`]: #DeviceType
+[`GetBatch`]: #GetBatch
+[`PowerOff`]: #PowerOff
+[`Vibrate:𝛘`]: #Vibrate:𝛘
+
+<!-- device-specific -->
+
+[`Air:In:𝛘`]: #AirIn𝛘
+[`Air:Level:𝛘`]: #AirLevel𝛘
+[`Air:Out:𝛘`]: #AirOut𝛘
+[`ALight:𝛘`]: #ALight𝛘
+[`AutoSwith:𝛘:𝛄`]: #AutoSwith𝛘𝛄
+[`GetAlight`]: #GetAlight
+[`GetAS`]: #GetAS
+[`GetLevel`]: #GetLevel
+[`GetLight`]: #GetLight
+[`GetPatten:𝛘`]: #GetPatten𝛘
+[`GetPatten`]: #GetPatten
+[`Light:𝛘`]: #Light𝛘
+[`Preset:𝛘`]: #Preset𝛘
+[`Rotate:𝛘`]: #Rotate𝛘
+[`RotateAntiClockwise:𝛘`]: #RotateAntiClockwise𝛘
+[`RotateChange`]: #RotateChange
+[`RotateClockwise:𝛘`]: #RotateClockwise𝛘
+[`SetLevel`]: #SetLevel
+[`StartMove:𝛘`]: #StartMove:𝛘
+[`Status:𝛘`]: #Status:𝛘
+[`StopMove:𝛘`]: #StopMove:𝛘
+[`Vibrate𝛘:𝛄`]: #Vibrate:𝛘:𝛄
 
 ### Compatibility Matrix
 
@@ -144,34 +183,6 @@ exactly as the protocol expects.
 | [`Status:𝛘`]              |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
 | [`StopMove:𝛘`]            |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
 | [`Vibrate𝛘:𝛄`]            |  ❔   |   ❔   |   ❔   |  ❔   |  ❔   |   ❔   |  ❔   |  ❔   |  ❔  |    ❔    |  ❔   |  ❔   |
-
-[`Battery`]: #Battery
-[`DeviceType`]: #DeviceType
-[`GetBatch`]: #GetBatch
-[`PowerOff`]: #PowerOff
-[`Vibrate:𝛘`]: #Vibrate:𝛘
-[`Air:In:𝛘`]: #AirIn𝛘
-[`Air:Level:𝛘`]: #AirLevel𝛘
-[`Air:Out:𝛘`]: #AirOut𝛘
-[`ALight:𝛘`]: #ALight𝛘
-[`AutoSwith:𝛘:𝛄`]: #AutoSwith𝛘𝛄
-[`GetAlight`]: #GetAlight
-[`GetAS`]: #GetAS
-[`GetLevel`]: #GetLevel
-[`GetLight`]: #GetLight
-[`GetPatten:𝛘`]: #GetPatten𝛘
-[`GetPatten`]: #GetPatten
-[`Light:𝛘`]: #Light𝛘
-[`Preset:𝛘`]: #Preset𝛘
-[`Rotate:𝛘`]: #Rotate𝛘
-[`RotateAntiClockwise:𝛘`]: #RotateAntiClockwise𝛘
-[`RotateChange`]: #RotateChange
-[`RotateClockwise:𝛘`]: #RotateClockwise𝛘
-[`SetLevel`]: #SetLevel
-[`StartMove:𝛘`]: #StartMove:𝛘
-[`Status:𝛘`]: #Status:𝛘
-[`StopMove:𝛘`]: #StopMove:𝛘
-[`Vibrate𝛘:𝛄`]: #Vibrate:𝛘:𝛄
 
 ### `Battery`
 
