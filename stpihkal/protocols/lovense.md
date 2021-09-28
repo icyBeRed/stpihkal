@@ -17,8 +17,8 @@ one response, unless that command itself shuts down the toy first.
 
 Depending on the model and firmware versions, valid commands that do not have
 meaningful return value will respond with either the string `OK` or the original
-command string, while invalid commands will respond with either `ERR` or
-`UNKNOWN,` followed by the original command string.
+command string, while invalid commands will respond with either the string `ERR`
+or the original command string prefixed with `UNKNOWN,`.
 
 Here is an example session, with whitespace added to distinguish transmitter and
 reciever.
