@@ -116,17 +116,9 @@ Commands for Lovense toys follows these rules:
 - Commands that do not return a context specific value will return "OK;" on
   success, "ERR;" on error.
 
-### Command List
-
-The following is the known command table for all toys. Anything send or received
-over the serial port is in quotes to denote communication, but should not be
-sent using quotes if you are implementing your own version of this protocol.
-Commands with ":x" mean that the x should be replaced with a number, the range
-of which is mentioned in the description.
-
 ## Commands
 
-### Support by Model
+### Support Matrix
 
 | Command                   | Ambi | Diamo | Domi | Edge | Ferri | Hush | Lush | Max | Nora | Osci | Quake |
 | ------------------------- | :--: | :---: | :--: | :--: | :---: | :--: | :--: | :-: | :--: | :--: | :---: |
