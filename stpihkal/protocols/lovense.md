@@ -180,6 +180,21 @@ Commands for Lovense toys follows these rules:
 
 ### `Battery`
 
+Returns the battery level of the toy as an integer percentage from 0-100.
+
+Some toys will also prepend an `s` character (such as `s99`) to indicate when
+they are active (i.e. when a vibrator motor is turned on).
+
+#### Example
+
+```
+Battery;
+
+  85;
+```
+
+Denotes 85% battery remaining.
+
 ### `DeviceType`
 
 Returns the toy's model identifier, firmware version, and Bluetooth MAC address,
@@ -249,29 +264,6 @@ address of `00:82:05:9A:D3:BD`.
 ### `Vibrate:𝛘`
 
 ### `Vibrate𝛘:𝛄`
-
-#### Get Battery Level
-
-Returns the battery level of the toy as an integer percentage from 0-100.
-
-Some toys will prepend an `s` character (such as `s99`) to indicate that when
-they are active (i.e. when a vibrator motor is turned on).
-
-_Availability:_ All toys
-
-_Command Format_
-
-```
-Battery;
-```
-
-_Return Example_
-
-```
-85;
-```
-
-Denotes 85% battery remaining.
 
 #### Turn Off Power
 
@@ -804,28 +796,4 @@ _Return Example_
 
 ```
 OK;
-```
-
-## Related Projects and Links
-
-The applications and repositories below contain implementations of the Lovense
-communications protocol, or have relevant information about the
-hardware/firmware.
-
-- Buttplug C# (All toys):
-  [https://github.com/metafetish/buttplug-csharp](https://github.com/metafetish/buttplug-csharp)
-- Buttplug JS (All toys):
-  [https://github.com/metafetish/buttplug-js](https://github.com/metafetish/buttplug-js)
-- lovesense-rs (Rust, Max/Nora only):
-  [https://github.com/metafetish/lovesense-rs](https://github.com/metafetish/lovesense-rs)
-- lovesense-py (Python, Max/Nora only):
-  [https://github.com/metafetish/lovesense-py](https://github.com/metafetish/lovesense-py)
-- Max/MSP patch (Max/MSP, Max/Nora only):
-  [https://github.com/metafetish/lovesense-max](https://github.com/metafetish/lovesense-max)
-- Node.js Library (Max/Nora only):
-  [https://github.com/metafetish/lovesense-js](https://github.com/metafetish/lovesense-js)
-- WebBluetooth JS Library/Demo (Hush only):
-  [https://github.com/metafetish/lovesense-hush-js-demo](https://github.com/metafetish/lovesense-hush-js-demo)
-
-```
 ```
